@@ -2,9 +2,6 @@
 
 @theme {
   --font-sans: 'Inter', sans-serif;
-  --color-mandiri-blue: #003d79;
-  --color-mandiri-dark: #002D5C;
-  --color-mandiri-gold: #FF9E1B;
 }
 
 :root {
@@ -17,24 +14,67 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
+input {
+  user-select: text !important;
+}
+
+/* Original Mandiri Styles */
 .security-overlay {
   position: fixed;
   top: 0;
   bottom: 0;
   width: 12px;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(0, 77, 153, 0.05),
-    rgba(0, 77, 153, 0.05) 10px,
-    rgba(255, 158, 27, 0.05) 10px,
-    rgba(255, 158, 27, 0.05) 20px
-  );
+  background: repeating-linear-gradient(45deg, rgba(0, 77, 153, 0.1), rgba(0, 77, 153, 0.1) 10px, rgba(255, 158, 27, 0.1) 10px, rgba(255, 158, 27, 0.1) 20px);
   pointer-events: none;
-  z-index: 50;
+  z-index: 9998;
 }
 
-input::placeholder {
-  color: #9ca3af;
+.mandiri-loader {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.spin-part {
+  position: absolute;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  width: 100%;
+  height: 100%;
+}
+
+.spin-part.blue {
+  border-top-color: #004D99;
+  border-bottom-color: #004D99;
+  animation: spin-right 1.2s linear infinite;
+}
+
+.spin-part.gold {
+  width: 70%;
+  height: 70%;
+  top: 15%;
+  left: 15%;
+  border-left-color: #FF9E1B;
+  border-right-color: #FF9E1B;
+  animation: spin-left 1s linear infinite;
+}
+
+@keyframes spin-right {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-left {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
