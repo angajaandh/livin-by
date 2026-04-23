@@ -1,0 +1,6 @@
+{
+  "name": "Mandiri Card Block",
+  "description": "Layanan pemblokiran kartu debit Mandiri sementara untuk perlindungan akun.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
